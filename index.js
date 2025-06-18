@@ -1,11 +1,8 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
-
+const puppeteer = require('puppeteer-core'); // puppeteer-core без скачки хрома
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Путь к скачанному хрому в Render (убедиcь, что совпадает с твоим)
-const CHROME_PATH = '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome';
+const PORT = process.env.PORT || 3000;
 
 app.get('/mew', async (req, res) => {
   const amount = parseFloat(req.query.amount || '0');
@@ -17,8 +14,8 @@ app.get('/mew', async (req, res) => {
 
   try {
     const browser = await puppeteer.launch({
+      executablePath: '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: CHROME_PATH,
     });
 
     const page = await browser.newPage();
